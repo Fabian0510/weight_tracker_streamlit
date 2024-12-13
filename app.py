@@ -34,6 +34,14 @@ def load_data():
 # Load existing data
 load_data()
 
+# Get the most recent weight for pre-populating the input
+default_weight = 70.0  # Default value if no data exists
+if st.session_state.weight_data:
+    sorted_data = sorted(st.session_state.weight_data, 
+                        key=lambda x: x['date'],
+                        reverse=True)
+    default_weight = sorted_data[0]['weight']
+
 # App title and description
 st.title("💪 Weight Tracker")
 st.write("Track your weight journey and view trends over time")
@@ -45,8 +53,12 @@ with st.sidebar:
     # Date input (default to today)
     date = st.date_input("Date", datetime.now())
     
-    # Weight input
-    weight = st.number_input("Weight (kg)", min_value=20.0, max_value=300.0, step=0.1)
+    # Weight input pre-populated with most recent weight
+    weight = st.number_input("Weight (kg)", 
+                            min_value=20.0, 
+                            max_value=300.0, 
+                            value=default_weight,
+                            step=0.1)
     
     # Notes input
     notes = st.text_area("Notes (optional)")
