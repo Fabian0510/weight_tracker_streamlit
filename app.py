@@ -130,33 +130,36 @@ if not init_database():
 
 # App title and description
 st.title("💪 Weight Tracker")
-st.write("Track your weight journey and view trends over time")
 
 # Get the most recent weight for pre-populating the input
 default_weight = get_latest_weight()
 
-# Input section
-with st.sidebar:
-    st.header("Add New Measurement")
-    
-    # Date input (default to today)
+# Input section - now at the top of the main page
+st.subheader("Add New Measurement")
+
+# Create three columns for the input fields
+col1, col2, col3 = st.columns([1, 1, 2])
+
+with col1:
     date = st.date_input("Date", datetime.now())
-    
-    # Weight input pre-populated with most recent weight
+
+with col2:
     weight = st.number_input("Weight (kg)", 
                             min_value=20.0, 
                             max_value=300.0, 
                             value=float(default_weight),
                             step=0.1)
-    
-    # Notes input
-    notes = st.text_area("Notes (optional)")
-    
-    # Submit button
-    if st.button("Add Measurement"):
+
+with col3:
+    notes = st.text_input("Notes (optional)")
+
+# Center the submit button
+_, center_col, _ = st.columns([3, 1, 3])
+with center_col:
+    if st.button("Add Measurement", use_container_width=True):
         if add_weight_measurement(date, weight, notes):
             st.success("Measurement added successfully!")
-            st.rerun()  # Changed from experimental_rerun() to rerun()
+            st.rerun()
 
 # Get all weight data
 weight_data = get_weight_data()
@@ -205,7 +208,7 @@ if weight_data:
     with col1:
         st.metric("Latest Weight", f"{df['weight'].iloc[-1]:.1f} kg")
     with col2:
-        st.metric("Average Weight", f"{df['weight'].mean():.1f} kg")
+        st.metric("Current 7-Day EMA", f"{df['ema'].iloc[-1]:.1f} kg")  # Changed from Average Weight to Current EMA
     with col3:
         total_loss = df['weight'].iloc[-1] - df['weight'].iloc[0]
         st.metric("Total Change", f"{total_loss:.1f} kg")
@@ -220,4 +223,4 @@ if weight_data:
     st.dataframe(df_display.sort_values('Date', ascending=False), hide_index=True)
     
 else:
-    st.info("No data yet. Add your first weight measurement using the sidebar!")
+    st.info("No data yet. Add your first weight measurement using the form above!")
