@@ -156,7 +156,7 @@ with st.sidebar:
     if st.button("Add Measurement"):
         if add_weight_measurement(date, weight, notes):
             st.success("Measurement added successfully!")
-            st.experimental_rerun()
+            st.rerun()  # Changed from experimental_rerun() to rerun()
 
 # Get all weight data
 weight_data = get_weight_data()
