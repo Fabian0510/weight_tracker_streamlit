@@ -115,12 +115,12 @@ def get_latest_weight():
         if 'conn' in locals():
             conn.close()
 
-def calculate_ema(data, periods=14):  # Changed from 7 to 14
-    """Calculate Exponential Moving Average"""
+def calculate_ma(data, periods=14):
+    """Calculate Simple Moving Average"""
     df = pd.DataFrame(data)
     df['measurement_date'] = pd.to_datetime(df['measurement_date'])
     df = df.sort_values('measurement_date')
-    df['ema'] = df['weight'].ewm(span=periods, adjust=False).mean()
+    df['ma'] = df['weight'].rolling(window=periods, min_periods=1).mean()
     return df
 
 # Initialize database
@@ -131,10 +131,17 @@ if not init_database():
 # App title and description
 st.title("💪 Weight Tracker")
 
+# Get weight data and calculate MA
+weight_data = get_weight_data()
+if weight_data:
+    df = calculate_ma(weight_data)
+    latest_ma = f"{df['ma'].iloc[-1]:.1f}"
+    st.subheader(f"Current 14-Day Moving Average: {latest_ma} kg")
+
 # Get the most recent weight for pre-populating the input
 default_weight = get_latest_weight()
 
-# Input section - at the top of the main page
+# Input section
 st.subheader("Add New Measurement")
 
 # Create three columns for the input fields
@@ -161,32 +168,26 @@ with center_col:
             st.success("Measurement added successfully!")
             st.rerun()
 
-# Get all weight data
-weight_data = get_weight_data()
-
 # Main content area
 if weight_data:
-    # Convert data to DataFrame and calculate EMA
-    df = calculate_ema(weight_data)
-    
     # Create plot
     fig = go.Figure()
     
-    # Add actual weight points
+    # Add actual weight points with lower opacity
     fig.add_trace(go.Scatter(
         x=df['measurement_date'],
         y=df['weight'],
         mode='markers',
         name='Daily Weight',
-        marker=dict(size=8)
+        marker=dict(size=8, opacity=0.4)
     ))
     
-    # Add EMA line
+    # Add MA line
     fig.add_trace(go.Scatter(
         x=df['measurement_date'],
-        y=df['ema'],
+        y=df['ma'],
         mode='lines',
-        name='14-Day EMA',  # Updated label
+        name='14-Day Moving Average',
         line=dict(width=2, color='red')
     ))
     
@@ -208,7 +209,7 @@ if weight_data:
     with col1:
         st.metric("Latest Weight", f"{df['weight'].iloc[-1]:.1f} kg")
     with col2:
-        st.metric("14-Day EMA", f"{df['ema'].iloc[-1]:.1f} kg")  # Updated label
+        st.metric("14-Day MA", f"{df['ma'].iloc[-1]:.1f} kg")
     with col3:
         total_loss = df['weight'].iloc[-1] - df['weight'].iloc[0]
         st.metric("Total Change", f"{total_loss:.1f} kg")
@@ -217,9 +218,9 @@ if weight_data:
     
     # Data table
     st.header("History")
-    df_display = df[['measurement_date', 'weight', 'ema']].copy()
+    df_display = df[['measurement_date', 'weight', 'ma']].copy()
     df_display['measurement_date'] = df_display['measurement_date'].dt.strftime('%Y-%m-%d')
-    df_display.columns = ['Date', 'Weight (kg)', '14-Day EMA']  # Updated label
+    df_display.columns = ['Date', 'Weight (kg)', '14-Day MA']
     st.dataframe(df_display.sort_values('Date', ascending=False), hide_index=True)
     
 else:
