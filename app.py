@@ -136,7 +136,7 @@ weight_data = get_weight_data()
 if weight_data:
     df = calculate_ma(weight_data)
     latest_ma = f"{df['ma'].iloc[-1]:.1f}"
-    st.subheader(f"Current MA: {latest_ma}kg")
+    st.title(f"Current MA: {latest_ma}kg")
 
 # Get the most recent weight for pre-populating the input
 default_weight = get_latest_weight()
