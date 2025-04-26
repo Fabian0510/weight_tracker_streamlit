@@ -510,7 +510,7 @@ with vis_tab3:
         fig.add_trace(go.Scatter(
             x=bp_df['measurement_date'],
             y=bp_df['systolic'],
-            mode='markers+lines',
+            mode='markers',
             name='Systolic',
             marker=dict(size=8, opacity=0.4, color='red'),
             line=dict(width=1, dash='dot', color='red')
@@ -529,7 +529,7 @@ with vis_tab3:
         fig.add_trace(go.Scatter(
             x=bp_df['measurement_date'],
             y=bp_df['diastolic'],
-            mode='markers+lines',
+            mode='markers',
             name='Diastolic',
             marker=dict(size=8, opacity=0.4, color='blue'),
             line=dict(width=1, dash='dot', color='blue')
@@ -562,7 +562,7 @@ with vis_tab3:
         fig2.add_trace(go.Scatter(
             x=bp_df['measurement_date'],
             y=bp_df['pulse'],
-            mode='markers+lines',
+            mode='markers',
             name='Pulse',
             marker=dict(size=8, opacity=0.4, color='green'),
             line=dict(width=1, dash='dot', color='green')
