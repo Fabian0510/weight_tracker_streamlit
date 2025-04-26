@@ -323,10 +323,10 @@ with vis_tab1:
             go.Scatter(
                 x=weight_df['measurement_date'], 
                 y=weight_df['weight'],
-                mode='markers+lines',
+                mode='markers',
                 name='Weight (kg)',
                 marker=dict(size=8, opacity=0.4, color='blue'),
-                line=dict(width=1, dash='dot', color='blue')
+                # line=dict(width=1, dash='dot', color='blue')
             ),
             secondary_y=False
         )
@@ -348,10 +348,10 @@ with vis_tab1:
             go.Scatter(
                 x=bp_df['measurement_date'], 
                 y=bp_df['systolic'],
-                mode='markers+lines',
+                mode='markers',
                 name='Systolic (mmHg)',
                 marker=dict(size=8, opacity=0.4, color='red'),
-                line=dict(width=1, dash='dot', color='red')
+                # line=dict(width=1, dash='dot', color='red')
             ),
             secondary_y=True
         )
@@ -371,10 +371,10 @@ with vis_tab1:
             go.Scatter(
                 x=bp_df['measurement_date'], 
                 y=bp_df['diastolic'],
-                mode='markers+lines',
+                mode='markers',
                 name='Diastolic (mmHg)',
                 marker=dict(size=8, opacity=0.4, color='green'),
-                line=dict(width=1, dash='dot', color='green')
+                # line=dict(width=1, dash='dot', color='green')
             ),
             secondary_y=True
         )
@@ -444,10 +444,10 @@ with vis_tab2:
         fig.add_trace(go.Scatter(
             x=df['measurement_date'],
             y=df['weight'],
-            mode='markers+lines',
+            mode='marker',
             name='Daily Weight',
             marker=dict(size=8, opacity=0.4),
-            line=dict(width=1, dash='dot')
+            # line=dict(width=1, dash='dot')
         ))
         
         # Add MA line
@@ -513,7 +513,7 @@ with vis_tab3:
             mode='markers',
             name='Systolic',
             marker=dict(size=8, opacity=0.4, color='red'),
-            line=dict(width=1, dash='dot', color='red')
+            # line=dict(width=1, dash='dot', color='red')
         ))
         
         # Add systolic MA line
@@ -532,7 +532,7 @@ with vis_tab3:
             mode='markers',
             name='Diastolic',
             marker=dict(size=8, opacity=0.4, color='blue'),
-            line=dict(width=1, dash='dot', color='blue')
+            # line=dict(width=1, dash='dot', color='blue')
         ))
         
         # Add diastolic MA line
