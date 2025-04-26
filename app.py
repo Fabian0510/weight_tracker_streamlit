@@ -444,7 +444,7 @@ with vis_tab2:
         fig.add_trace(go.Scatter(
             x=df['measurement_date'],
             y=df['weight'],
-            mode='marker',
+            mode='markers',
             name='Daily Weight',
             marker=dict(size=8, opacity=0.4),
             # line=dict(width=1, dash='dot')
