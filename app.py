@@ -9,6 +9,31 @@ from mysql.connector import Error
 # Set page config
 st.set_page_config(page_title="Health Tracker", layout="wide")
 
+# Set light theme with custom CSS
+st.markdown("""
+<style>
+    .stApp {
+        background-color: #F8F9FA;
+    }
+    .stTabs [data-baseweb="tab-list"] {
+        background-color: #F0F2F6;
+    }
+    .stTabs [data-baseweb="tab"] {
+        color: #4F8BF9;
+    }
+    .css-145kmo2 {
+        color: #1E293B;
+    }
+    h1, h2, h3 {
+        color: #1E293B;
+    }
+    .stButton>button {
+        background-color: #4F8BF9;
+        color: white;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # Database configuration
 DB_CONFIG = {
     'host': 'localhost',
@@ -325,8 +350,8 @@ with vis_tab1:
                 y=weight_df['weight'],
                 mode='markers',
                 name='Weight (kg)',
-                marker=dict(size=8, opacity=0.4, color='blue'),
-                # line=dict(width=1, dash='dot', color='blue')
+                marker=dict(size=8, opacity=0.4, color='#4F8BF9'),
+                # line=dict(width=1, dash='dot', color='#4F8BF9')
             ),
             secondary_y=False
         )
@@ -338,7 +363,7 @@ with vis_tab1:
                 y=weight_df['ma'],
                 mode='lines',
                 name='Weight 14-Day MA',
-                line=dict(width=2, color='darkblue')
+                line=dict(width=2, color='#1E63C4')
             ),
             secondary_y=False
         )
@@ -350,8 +375,8 @@ with vis_tab1:
                 y=bp_df['systolic'],
                 mode='markers',
                 name='Systolic (mmHg)',
-                marker=dict(size=8, opacity=0.4, color='red'),
-                # line=dict(width=1, dash='dot', color='red')
+                marker=dict(size=8, opacity=0.4, color='#FF9D9A'),
+                # line=dict(width=1, dash='dot', color='#FF9D9A')
             ),
             secondary_y=True
         )
@@ -362,7 +387,7 @@ with vis_tab1:
                 y=bp_df['systolic_ma'],
                 mode='lines',
                 name='Systolic 14-Day MA',
-                line=dict(width=2, color='darkred')
+                line=dict(width=2, color='#E8605A')
             ),
             secondary_y=True
         )
@@ -373,8 +398,8 @@ with vis_tab1:
                 y=bp_df['diastolic'],
                 mode='markers',
                 name='Diastolic (mmHg)',
-                marker=dict(size=8, opacity=0.4, color='green'),
-                # line=dict(width=1, dash='dot', color='green')
+                marker=dict(size=8, opacity=0.4, color='#96DED1'),
+                # line=dict(width=1, dash='dot', color='#96DED1')
             ),
             secondary_y=True
         )
@@ -385,7 +410,7 @@ with vis_tab1:
                 y=bp_df['diastolic_ma'],
                 mode='lines',
                 name='Diastolic 14-Day MA',
-                line=dict(width=2, color='darkgreen')
+                line=dict(width=2, color='#47B39C')
             ),
             secondary_y=True
         )
@@ -401,7 +426,10 @@ with vis_tab1:
                 y=1.02,
                 xanchor="right",
                 x=1
-            )
+            ),
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(248,249,250,0.95)',
+            font=dict(color='#1E293B')
         )
         
         # Set y-axes titles
@@ -446,7 +474,7 @@ with vis_tab2:
             y=df['weight'],
             mode='markers',
             name='Daily Weight',
-            marker=dict(size=8, opacity=0.4),
+            marker=dict(size=8, opacity=0.4, color='#4F8BF9'),
             # line=dict(width=1, dash='dot')
         ))
         
@@ -456,7 +484,7 @@ with vis_tab2:
             y=df['ma'],
             mode='lines',
             name='14-Day Moving Average',
-            line=dict(width=2, color='red')
+            line=dict(width=2, color='#E8605A')
         ))
         
         # Update layout
@@ -465,7 +493,10 @@ with vis_tab2:
             xaxis_title="Date",
             yaxis_title="Weight (kg)",
             hovermode='x unified',
-            height=500
+            height=500,
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(248,249,250,0.95)',
+            font=dict(color='#1E293B')
         )
         
         # Display plot
@@ -512,8 +543,8 @@ with vis_tab3:
             y=bp_df['systolic'],
             mode='markers',
             name='Systolic',
-            marker=dict(size=8, opacity=0.4, color='red'),
-            # line=dict(width=1, dash='dot', color='red')
+            marker=dict(size=8, opacity=0.4, color='#FF9D9A'),
+            # line=dict(width=1, dash='dot', color='#FF9D9A')
         ))
         
         # Add systolic MA line
@@ -522,7 +553,7 @@ with vis_tab3:
             y=bp_df['systolic_ma'],
             mode='lines',
             name='Systolic 14-Day MA',
-            line=dict(width=2, color='darkred')
+            line=dict(width=2, color='#E8605A')
         ))
         
         # Add diastolic line
@@ -531,8 +562,8 @@ with vis_tab3:
             y=bp_df['diastolic'],
             mode='markers',
             name='Diastolic',
-            marker=dict(size=8, opacity=0.4, color='blue'),
-            # line=dict(width=1, dash='dot', color='blue')
+            marker=dict(size=8, opacity=0.4, color='#4F8BF9'),
+            # line=dict(width=1, dash='dot', color='#4F8BF9')
         ))
         
         # Add diastolic MA line
@@ -541,7 +572,7 @@ with vis_tab3:
             y=bp_df['diastolic_ma'],
             mode='lines',
             name='Diastolic 14-Day MA',
-            line=dict(width=2, color='darkblue')
+            line=dict(width=2, color='#1E63C4')
         ))
         
         # Update layout
@@ -550,7 +581,10 @@ with vis_tab3:
             xaxis_title="Date",
             yaxis_title="Blood Pressure (mmHg)",
             hovermode='x unified',
-            height=500
+            height=500,
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(248,249,250,0.95)',
+            font=dict(color='#1E293B')
         )
         
         # Display plot
@@ -564,8 +598,8 @@ with vis_tab3:
             y=bp_df['pulse'],
             mode='markers',
             name='Pulse',
-            marker=dict(size=8, opacity=0.4, color='green'),
-            line=dict(width=1, dash='dot', color='green')
+            marker=dict(size=8, opacity=0.4, color='#96DED1'),
+            line=dict(width=1, dash='dot', color='#96DED1')
         ))
         
         fig2.add_trace(go.Scatter(
@@ -573,7 +607,7 @@ with vis_tab3:
             y=bp_df['pulse_ma'],
             mode='lines',
             name='Pulse 14-Day MA',
-            line=dict(width=2, color='darkgreen')
+            line=dict(width=2, color='#47B39C')
         ))
         
         # Update layout
@@ -582,7 +616,10 @@ with vis_tab3:
             xaxis_title="Date",
             yaxis_title="Pulse (bpm)",
             hovermode='x unified',
-            height=300
+            height=300,
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(248,249,250,0.95)',
+            font=dict(color='#1E293B')
         )
         
         # Display plot
