@@ -325,8 +325,8 @@ bp_data = get_bp_data()
 # Main content area - Combined visualization
 st.header("Health Metrics Dashboard")
 
-# Create tabs for visualization
-vis_tab1, vis_tab2, vis_tab3 = st.tabs(["Combined View", "Weight Details", "BP Details"])
+# Create tabs for visualization (Weight Details tab is now first/default)
+vis_tab2, vis_tab1, vis_tab3 = st.tabs(["Weight Details", "Combined View", "BP Details"])
 
 with vis_tab1:
     if weight_data and bp_data:
@@ -464,6 +464,10 @@ with vis_tab2:
     if weight_data:
         # Process data
         df = calculate_ma(weight_data, 'weight')
+        
+        # Display most recent MA weight prominently at the top
+        latest_ma = df['ma'].iloc[-1]
+        st.markdown(f"<div style='text-align: center; margin-bottom: 30px;'><h2 style='font-size: 2.5em; font-weight: bold; color: #1E293B; margin: 0;'>Current Weight (14-Day MA): {latest_ma:.1f} kg</h2></div>", unsafe_allow_html=True)
         
         # Create plot
         fig = go.Figure()
